@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: health
+  labels:
+    app: health
+  namespace: ms-arch-homework
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: health
+  template:
+    metadata:
+      labels:
+        app: health
+    spec:
+      containers:
+      - name: health
+        image: mrjobzzz/healthservice:1.0.2
+        ports:
+        - containerPort: 80
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          failureThreshold: 1
+          periodSeconds: 10
+        startupProbe:
+          httpGet:
+            path: /health
+            port: 80
+          failureThreshold: 30
+          periodSeconds: 10

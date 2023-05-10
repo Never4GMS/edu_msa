@@ -1,0 +1,40 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+  name: health-rewrite-ingress
+  namespace: ms-arch-homework
+spec:
+  rules:
+  - host: arch.homework
+    http:
+      paths:      
+      - path: /otusapp/v.seryakov(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: health
+            port:
+              number: 80
+  ingressClassName: nginx
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: health-ingress
+  namespace: ms-arch-homework
+spec:
+  rules:
+  - host: arch.homework
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: health
+            port:
+              number: 80
+  ingressClassName: nginx

@@ -1,0 +1,1 @@
+kubectl create namespace ms-arch-homework && helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx/ && helm repo update && helm install nginx ingress-nginx/ingress-nginx --namespace ms-arch-homework -f nginx-ingress.yaml
